@@ -1,7 +1,9 @@
 package g45_lexicon.spring_boot_workshop.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -18,22 +20,36 @@ public class Book {
     private int maxLoanDays;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "loan_id" )
+    @JoinColumn(name = "loan_id")
     private BookLoan bookLoan;
 
+    @ManyToMany(mappedBy = "writtenBooks")
+    private Set<Author> authors;
+
     //constructors
-    public Book() {}
+    public Book() {
+    }
+
     public Book(String isbn, String title, int maxLoanDays) {
         this.isbn = isbn;
         this.title = title;
         this.maxLoanDays = maxLoanDays;
     }
+
     public Book(int bookId, String isbn, String title, int maxLoanDays) {
         this(isbn, title, maxLoanDays);
         this.bookId = bookId;
     }
 
     //getters and setters
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
 
     public BookLoan getBookLoan() {
         return bookLoan;
@@ -77,6 +93,20 @@ public class Book {
 
     //override methods
 
+    public void addAuthor(Author author) {
+        if (author == null) throw new IllegalArgumentException("author data was null");
+        if (authors == null) authors = new HashSet<>();
+        authors.add(author);
+        author.getWrittenBooks().add(this);
+    }
+
+    public void removeAuthor(Author author) {
+        if (author == null) throw new IllegalArgumentException("author data was null");
+        if (authors != null) {
+            author.getWrittenBooks().remove(this);
+            authors.remove(author);
+        }
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
