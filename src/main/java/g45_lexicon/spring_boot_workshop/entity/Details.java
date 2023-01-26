@@ -8,7 +8,6 @@ import java.util.Objects;
 public class Details {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false)
     private int detailsId;
     @Column(nullable = false,length = 100, unique = true)
     private String email;
@@ -16,6 +15,9 @@ public class Details {
     private String name;
     @Column(nullable = false)
     private LocalDate birthDate;
+
+    @OneToOne(mappedBy = "details")
+    private AppUser appUser;
 
     //constructors
     public Details() {}
@@ -62,6 +64,13 @@ public class Details {
         this.birthDate = birthDate;
     }
 
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
+    }
     //equal & hashcode
 
     @Override

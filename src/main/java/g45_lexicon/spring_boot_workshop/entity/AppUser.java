@@ -4,22 +4,27 @@ package g45_lexicon.spring_boot_workshop.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID", updatable = false)
     private int appUserId;
     @Column(nullable = false, length = 50, unique = true)
     private String username;
     @Column(nullable = false, length = 100)
     private String password;
     private LocalDate regDate;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "DETAILS_ID")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "details_id")
     private Details details;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "loan_id" )
+    private BookLoan bookLoan;
+
 
     //constructors
     public AppUser() {
@@ -39,6 +44,14 @@ public class AppUser {
 
 
     //getter & setters
+
+    public BookLoan getBookLoan() {
+        return bookLoan;
+    }
+
+    public void setBookLoan(BookLoan bookLoan) {
+        this.bookLoan = bookLoan;
+    }
 
     public int getAppUserId() {
         return appUserId;

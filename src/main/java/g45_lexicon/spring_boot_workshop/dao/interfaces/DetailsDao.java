@@ -1,4 +1,4 @@
-package g45_lexicon.spring_boot_workshop.dao;
+package g45_lexicon.spring_boot_workshop.dao.interfaces;
 
 
 import g45_lexicon.spring_boot_workshop.entity.Details;

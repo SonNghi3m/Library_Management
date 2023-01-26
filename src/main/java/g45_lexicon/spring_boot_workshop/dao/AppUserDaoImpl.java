@@ -1,5 +1,6 @@
 package g45_lexicon.spring_boot_workshop.dao;
 
+import g45_lexicon.spring_boot_workshop.dao.interfaces.AppUserDao;
 import g45_lexicon.spring_boot_workshop.entity.AppUser;
 import g45_lexicon.spring_boot_workshop.exception.DataNotFoundException;
 import org.springframework.stereotype.Repository;
@@ -9,7 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Collection;
 @Repository
-public class AppUserDaoImpl implements AppUserDao{
+public class AppUserDaoImpl implements AppUserDao {
     @PersistenceContext
     EntityManager entityManager;
     @Override

@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>g45_Lexicon</groupId>
-    <artifactId>Spring_Boot_Workshop</artifactId>
+    <artifactId>Library_Management</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Spring_Boot_Workshop</name>
     <description>Spring_Boot_Workshop</description>
