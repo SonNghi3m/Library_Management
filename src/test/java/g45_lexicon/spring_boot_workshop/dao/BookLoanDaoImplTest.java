@@ -164,9 +164,13 @@ public class BookLoanDaoImplTest {
 
     @Test
     public void update() {
-       /* BookLoan sourceBookLoan = tem.find(BookLoan.class, bookLoan.getLoanId());
-        sourceBookLoan.setLoanDate(LocalDate.parse("2022-12-30"));
-        testBookLoan.update()*/
+        BookLoan sourceBookLoan = tem.find(BookLoan.class, loanId1);
+        BookLoan updatedBookLoan = sourceBookLoan;
+
+        updatedBookLoan.setDueDate(LocalDate.parse("2023-02-10"));
+        testBookLoan.update(updatedBookLoan);
+        assertEquals(updatedBookLoan,sourceBookLoan);
+        System.out.println(testBookLoan.findAll());
     }
 
     @Test

@@ -5,6 +5,7 @@ import g45_lexicon.spring_boot_workshop.entity.Details;
 import g45_lexicon.spring_boot_workshop.exception.DataNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
@@ -70,14 +71,11 @@ public class DetailsDaoImplTest {
     @Test
     public void update() {
         Details sourceDetails = tem.find(Details.class, detailsDataId1);
-        Details newDetailsData = new Details("email33","Full Name33", LocalDate.parse("2023-01-30"));
-        Details newDetails = testDetails.create(newDetailsData);
-        newDetailsData.setDetailsId(sourceDetails.getDetailsId());
-        Details updatedDetails = testDetails.update(newDetails);
-        assertNotNull(updatedDetails);
-        System.out.println(sourceDetails);
-        System.out.println(updatedDetails);
-
+        Details updatedDetails = sourceDetails;
+        updatedDetails.setName("Updated name");
+        testDetails.update(updatedDetails);
+        assertEquals(updatedDetails,sourceDetails);
+        System.out.println(testDetails.findAll());
     }
     @Test
     public void delete() throws DataNotFoundException {

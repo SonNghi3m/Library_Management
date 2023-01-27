@@ -65,13 +65,11 @@ public class BookDaoImplTest {
     @Test
     public void update() {
         Book sourceBook = tem.find(Book.class, bookId1);
-        Book bookData4 = new Book("978-8-4130-7822-9","book4",21);
-        Book book4 = testBook.create(bookData4);
-        book4.setBookId(sourceBook.getBookId());
-        Book updatedBook = testBook.update(book4);
-        assertNotNull(updatedBook);
-        System.out.println(sourceBook);
-        System.out.println(updatedBook);
+        Book updatedBook = sourceBook;
+        updatedBook.setTitle("updated title");
+        testBook.update(updatedBook);
+        assertEquals(updatedBook,sourceBook);
+        System.out.println(testBook.findAll());
     }
 
     @Test

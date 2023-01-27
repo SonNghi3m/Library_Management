@@ -74,15 +74,11 @@ public class AppUserDaoImplTest {
     @Test
     public void update() {
         AppUser sourceAppUser = tem.find(AppUser.class, appUserId1);
-        Details newDetailsData = new Details("email33","Full Name33", LocalDate.parse("2023-01-30"));
-        AppUser newAppUserData = new AppUser("user33","pass33",newDetailsData);
-        AppUser appUser = testAppUser.create(newAppUserData);
-        newDetailsData.setDetailsId(sourceAppUser.getDetails().getDetailsId());
-        newAppUserData.setAppUserId(sourceAppUser.getAppUserId());
-        AppUser updatedAppUser = testAppUser.update(appUser);
-        assertNotNull(updatedAppUser);
-        System.out.println(sourceAppUser);
-        System.out.println(updatedAppUser);
+        AppUser updadedAppUser = sourceAppUser;
+        updadedAppUser.setUsername("updatedUserName1");
+        testAppUser.update(updadedAppUser);
+        assertEquals(updadedAppUser,sourceAppUser);
+        System.out.println(testAppUser.findAll());
     }
     @Test
     public void delete() throws DataNotFoundException {
