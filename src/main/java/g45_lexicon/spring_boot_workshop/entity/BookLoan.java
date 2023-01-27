@@ -17,14 +17,29 @@ public class BookLoan {
     private LocalDate dueDate;
     @Column(nullable = false)
     private boolean returned;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "appUser_id")
+    private AppUser borrower;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "book_id")
+    private Book book;
     @OneToMany(mappedBy = "bookLoan", orphanRemoval = true)
     private List<AppUser> borrowers;
     @OneToMany(mappedBy = "bookLoan", orphanRemoval = true)
     private List<Book> books;
 
     //constructors
+    public BookLoan() {
+    }
 
-    public BookLoan() {}
+    public BookLoan(LocalDate loanDate, LocalDate dueDate, boolean returned, AppUser borrower, Book book) {
+        this.loanDate = loanDate;
+        this.dueDate = dueDate;
+        this.returned = returned;
+        this.borrower = borrower;
+        this.book = book;
+    }
 
     public BookLoan(LocalDate loanDate, LocalDate dueDate, boolean returned, List<AppUser> borrowers, List<Book> books) {
         this.loanDate = loanDate;
@@ -84,6 +99,21 @@ public class BookLoan {
         this.books = books;
     }
 
+    public AppUser getBorrower() {
+        return borrower;
+    }
+
+    public void setBorrower(AppUser borrower) {
+        this.borrower = borrower;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
 
     //methods
     public void addBorrower(AppUser borrower) {
@@ -115,6 +145,7 @@ public class BookLoan {
             books.remove(book);
         }
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

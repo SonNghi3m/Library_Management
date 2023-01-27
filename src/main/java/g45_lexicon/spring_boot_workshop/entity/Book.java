@@ -107,6 +107,7 @@ public class Book {
             authors.remove(author);
         }
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

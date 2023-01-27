@@ -1,9 +1,8 @@
 package g45_lexicon.spring_boot_workshop.entity;
 
-
-
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,29 +21,30 @@ public class AppUser {
     private Details details;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "loan_id" )
+    @JoinColumn(name = "loan_id")
     private BookLoan bookLoan;
 
+    @OneToMany(mappedBy = "borrower", orphanRemoval = true)
+    private List<BookLoan> loans;
 
     //constructors
     public AppUser() {
         this.regDate = LocalDate.now();
     }
+
     public AppUser(String username, String password, Details details) {
         this();
         this.username = username;
         this.password = password;
         this.details = details;
     }
+
     public AppUser(String username, String password, LocalDate regDate, Details details) {
         this(username, password, details);
         this.regDate = regDate;
     }
 
-
-
     //getter & setters
-
     public BookLoan getBookLoan() {
         return bookLoan;
     }
@@ -93,7 +93,21 @@ public class AppUser {
         this.details = details;
     }
 
-    //equal & hashcode
+    //methods
+    public void addBookLoan(BookLoan bookLoan) {
+        if (bookLoan == null) throw new IllegalArgumentException("bookLoan data was null");
+        if (loans == null) loans = new ArrayList<>();
+        loans.add(bookLoan);
+        bookLoan.setBorrower(this);
+    }
+
+    public void removeBookLoan(BookLoan bookLoan) {
+        if (bookLoan == null) throw new IllegalArgumentException("bookLoan data was null");
+        if (loans != null) {
+            bookLoan.setBorrower(null);
+            loans.remove(bookLoan);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -107,8 +121,6 @@ public class AppUser {
     public int hashCode() {
         return Objects.hash(appUserId, username, password, regDate, details);
     }
-
-    //toString
 
     @Override
     public String toString() {
